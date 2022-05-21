@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @Document("flights")
 @Getter
@@ -38,14 +38,14 @@ public class Flight {
     private Airport departureAirport;
 
     @DBRef(db = "airports")
-    @Field("departure_airports")
+    @Field("arrival_airports")
     private Airport arrivalAirport;
 
     @Field("departure_time")
-    private ZonedDateTime departureTime;
+    private LocalDateTime departureTime;
 
     @Field("expected_arrival_time")
-    private ZonedDateTime expectedArrivalTime;
+    private LocalDateTime expectedArrivalTime;
 
     @Field("occupied_economic_seats")
     private Integer occupiedEconomicSeats;
@@ -62,8 +62,8 @@ public class Flight {
     private Plane plane;
 
     public Flight(Double adultEconomicPrice, Double adultBusinessPrice, Double discountRate,
-                  Airport departureAirport, Airport arrivalAirport, ZonedDateTime departureTime,
-                  ZonedDateTime expectedArrivalTime, Agency agency, Plane plane) {
+                  Airport departureAirport, Airport arrivalAirport, LocalDateTime departureTime,
+                  LocalDateTime expectedArrivalTime, Agency agency, Plane plane) {
         this.adultEconomicPrice = adultEconomicPrice;
         this.adultBusinessPrice = adultBusinessPrice;
         this.discountRate = discountRate;
@@ -78,8 +78,8 @@ public class Flight {
     }
 
     public Flight(Double adultEconomicPrice, Double adultBusinessPrice, Double discountRate,
-                  Airport departureAirport, Airport arrivalAirport, ZonedDateTime departureTime,
-                  ZonedDateTime expectedArrivalTime, Integer occupiedEconomicSeats, Integer occupiedBusinessSeats,
+                  Airport departureAirport, Airport arrivalAirport, LocalDateTime departureTime,
+                  LocalDateTime expectedArrivalTime, Integer occupiedEconomicSeats, Integer occupiedBusinessSeats,
                   Agency agency, Plane plane) {
         this.adultEconomicPrice = adultEconomicPrice;
         this.adultBusinessPrice = adultBusinessPrice;

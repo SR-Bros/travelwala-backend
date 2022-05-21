@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @Document("invoices")
 @Getter
@@ -29,13 +29,13 @@ public class Invoice {
 
     @Field("created_at")
     @Setter
-    private ZonedDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @DBRef
     @Setter
     private Booking booking;
 
-    public Invoice(String code, ZonedDateTime createdAt, Booking booking) {
+    public Invoice(String code, LocalDateTime createdAt, Booking booking) {
         this.code = code;
         this.totalCost = booking.totalCost();
         this.booking = booking;

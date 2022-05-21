@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Document("bookings")
@@ -24,9 +24,9 @@ public class Booking {
     private String status;
 
     @Field("created_at")
-    private ZonedDateTime createdAt;
+    private LocalDateTime createdAt;
 
-    public Booking(List<BookingItem> bookingItems, String status, ZonedDateTime createdAt) {
+    public Booking(List<BookingItem> bookingItems, String status, LocalDateTime createdAt) {
         this.bookingItems = bookingItems;
         this.status = status;
         this.createdAt = createdAt;

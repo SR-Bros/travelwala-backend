@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @Document("passengers")
 @Data
@@ -23,7 +23,7 @@ public class Passenger {
     private String lastName;
 
     @Field("dob")
-    private ZonedDateTime dob;
+    private LocalDateTime dob;
 
     @Field("nationality")
     private String nationality;
