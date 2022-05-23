@@ -1,9 +1,10 @@
 package com.ict.group06.travelwala.entity;
 
+import com.ict.group06.travelwala.entity.flight.FlightBookingItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -17,22 +18,23 @@ public class Booking {
     @Id
     private String id;
 
-    @Field("booking_items")
-    private List<BookingItem> bookingItems;
+    @Field("flight_booking_items")
+    @Setter
+    private FlightBookingItem flightBookingItem;
 
     @Field("status")
+    @Setter
     private String status;
 
     @Field("created_at")
     private LocalDateTime createdAt;
 
-    public Booking(List<BookingItem> bookingItems, String status, LocalDateTime createdAt) {
-        this.bookingItems = bookingItems;
-        this.status = status;
-        this.createdAt = createdAt;
+    public Booking(FlightBookingItem flightBookingItem) {
+        this.flightBookingItem = flightBookingItem;
+        this.createdAt = LocalDateTime.now();
     }
 
     public double totalCost() {
-        return bookingItems.stream().map(BookingItem::getItemCost).reduce(0.0, Double::sum);
+        return this.flightBookingItem.getItemCost();
     }
 }

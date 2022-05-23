@@ -1,6 +1,5 @@
 package com.ict.group06.travelwala.entity.flight;
 
-import com.ict.group06.travelwala.entity.BookingItem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,12 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class FlightBooking extends BookingItem {
+public class FlightBookingItem {
     @DBRef(db = "tickets")
     @Field("tickets")
     private List<Ticket> tickets;
 
-    @Override
     public double getItemCost() {
         return tickets.stream().map(Ticket::getPrice).reduce(0.0, Double::sum);
     }
