@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 public class FlightBookingItem {
-    @DBRef(db = "tickets")
+    @DBRef
     @Field("tickets")
     private List<Ticket> tickets;
 

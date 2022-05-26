@@ -18,11 +18,11 @@ public abstract class Ticket {
     @Setter
     protected String seatClass;
 
-    @DBRef(db = "flights")
+    @DBRef
     @Setter
     protected Flight flight;
 
-    @DBRef(db = "passengers")
+    @DBRef
     @Setter
     protected Passenger passenger;
 
