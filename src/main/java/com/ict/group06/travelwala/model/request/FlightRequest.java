@@ -15,8 +15,9 @@ public class FlightRequest {
     private Double adultBusinessPrice;
     private Double discountRate;
     private String departureCity;
-    private String departureAirport;
     private String arrivalCity;
+    private String departureAirport;
+    private String arrivalAirport;
     private LocalDateTime departureTime;
     private LocalDateTime expectedArrivalTime;
 }
