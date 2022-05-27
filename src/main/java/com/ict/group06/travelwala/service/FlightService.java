@@ -11,5 +11,5 @@ public interface FlightService {
     List<FlightResponse> findAll(FlightCriteria flightCriteria);
     FlightResponse findById(String id);
     FlightResponse createNewFlight(FlightRequest flightRequest);
-    FlightResponse updateFlight(FlightRequest flightRequest);
+    FlightResponse updateFlight(String id, FlightRequest flightRequest);
 }

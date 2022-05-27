@@ -38,7 +38,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public FlightResponse updateFlight(FlightRequest flightRequest) {
+    public FlightResponse updateFlight(String id, FlightRequest flightRequest) {
         return null;
     }
 }
