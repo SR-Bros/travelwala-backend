@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookingRequest {
     private FlightBookingRequest flightBookingRequest;
+    private ContactRequest contactRequest;
 }
