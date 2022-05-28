@@ -1,5 +1,6 @@
 package com.ict.group06.travelwala.model.request;
 
+import com.ict.group06.travelwala.entity.flight.Plane;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,8 @@ public class FlightRequest {
     private String arrivalCity;
     private String departureAirport;
     private String arrivalAirport;
+    private String agencyId;
+    private String planeId;
     private LocalDateTime departureTime;
     private LocalDateTime expectedArrivalTime;
 }
