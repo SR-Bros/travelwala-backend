@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class WalaRepositoryImpl<T, ID> implements WalaRepository<T, ID> {
-    private final MongoTemplate mongoTemplate;
+    protected final MongoTemplate mongoTemplate;
     private final Class<T> typeParameterClass;
 
     @Override
