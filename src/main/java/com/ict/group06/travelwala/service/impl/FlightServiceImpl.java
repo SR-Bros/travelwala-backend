@@ -64,7 +64,6 @@ public class FlightServiceImpl implements FlightService {
         ));
         flight.setDepartureTime(flightRequest.getDepartureTime());
         flight.setExpectedArrivalTime(flightRequest.getExpectedArrivalTime());
-        flightRepository.save(flight);
-        return new FlightResponse(flight);
+        return new FlightResponse(flightRepository.save(flight));
     }
 }
