@@ -15,8 +15,6 @@ public class FlightRequest {
     private Double adultEconomicPrice;
     private Double adultBusinessPrice;
     private Double discountRate;
-    private String departureCity;
-    private String arrivalCity;
     private String departureAirport;
     private String arrivalAirport;
     private String agencyId;

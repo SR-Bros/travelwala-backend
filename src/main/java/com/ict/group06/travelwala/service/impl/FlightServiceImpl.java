@@ -5,19 +5,23 @@ import com.ict.group06.travelwala.exception.RecordNotFoundException;
 import com.ict.group06.travelwala.model.request.FlightCriteria;
 import com.ict.group06.travelwala.model.request.FlightRequest;
 import com.ict.group06.travelwala.model.response.FlightResponse;
+import com.ict.group06.travelwala.repository.AgencyRepository;
+import com.ict.group06.travelwala.repository.AirportRepository;
 import com.ict.group06.travelwala.repository.FlightRepository;
+import com.ict.group06.travelwala.repository.PlaneRepository;
 import com.ict.group06.travelwala.service.FlightService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class FlightServiceImpl implements FlightService {
     private final FlightRepository flightRepository;
-
-    public FlightServiceImpl(FlightRepository flightRepository) {
-        this.flightRepository = flightRepository;
-    }
+    private final AirportRepository airportRepository;
+    private final PlaneRepository planeRepository;
+    private final AgencyRepository agencyRepository;
 
     @Override
     public List<FlightResponse> findAll(FlightCriteria flightCriteria) {
@@ -39,6 +43,27 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightResponse updateFlight(String id, FlightRequest flightRequest) {
-        return null;
+        Flight flight = flightRepository.findById(id).orElseThrow(
+                () -> new RecordNotFoundException("No flight found for id " + id)
+        );
+        flight.setCode(flightRequest.getCode());
+        flight.setAdultEconomicPrice(flightRequest.getAdultEconomicPrice());
+        flight.setAdultBusinessPrice(flightRequest.getAdultBusinessPrice());
+        flight.setDiscountRate(flightRequest.getDiscountRate());
+        flight.setArrivalAirport(airportRepository.findByName(flightRequest.getArrivalAirport()).orElseThrow(() ->
+                new RecordNotFoundException("Arrival airport not found")
+        ));
+        flight.setDepartureAirport(airportRepository.findByName(flightRequest.getDepartureAirport()).orElseThrow(() ->
+                new RecordNotFoundException("Departure airport not found")
+        ));
+        flight.setAgency(agencyRepository.findById(flightRequest.getAgencyId()).orElseThrow(()->
+                new RecordNotFoundException("Agency not found")
+        ));
+        flight.setPlane(planeRepository.findById(flightRequest.getPlaneId()).orElseThrow(()->
+                new RecordNotFoundException("Plane not found")
+        ));
+        flight.setDepartureTime(flightRequest.getDepartureTime());
+        flight.setExpectedArrivalTime(flightRequest.getExpectedArrivalTime());
+        return new FlightResponse(flightRepository.save(flight));
     }
 }
