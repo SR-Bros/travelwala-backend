@@ -3,6 +3,7 @@ package com.ict.group06.travelwala.controller;
 import com.ict.group06.travelwala.exception.RecordNotFoundException;
 import com.ict.group06.travelwala.model.request.FlightCriteria;
 import com.ict.group06.travelwala.model.request.FlightRequest;
+import com.ict.group06.travelwala.model.response.FlightResponse;
 import com.ict.group06.travelwala.service.FlightService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,12 @@ public class FlightController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateFlight(@PathVariable("id") String id,
                                           @RequestBody FlightRequest flightRequest) {
-        return ResponseEntity.ok(flightService.updateFlight(id, flightRequest));
+        try {
+            FlightResponse flightResponse = flightService.updateFlight(id,flightRequest);
+            return ResponseEntity.ok(flightResponse);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+
     }
 }
