@@ -32,9 +32,8 @@ public class FlightController {
         }
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<?> createNewFlight(@PathVariable("id") String id,
-                                          @RequestBody FlightRequest flightRequest) {
+    @PostMapping()
+    public ResponseEntity<?> createNewFlight(@RequestBody FlightRequest flightRequest) {
         return ResponseEntity.ok(flightService.createNewFlight(flightRequest));
     }
 
