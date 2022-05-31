@@ -33,4 +33,8 @@ public class Plane {
         this.code = code;
         this.maximumCapacity = maximumCapacity;
     }
+
+    public String getName() {
+        return this.manufacturer.concat(this.code);
+    }
 }
