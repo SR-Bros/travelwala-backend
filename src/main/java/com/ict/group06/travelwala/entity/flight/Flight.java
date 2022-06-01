@@ -34,11 +34,9 @@ public class Flight {
     @Field("discount_rate")
     private Double discountRate;
 
-    @DBRef
     @Field("departure_airports")
     private Airport departureAirport;
 
-    @DBRef
     @Field("arrival_airports")
     private Airport arrivalAirport;
 
@@ -54,11 +52,9 @@ public class Flight {
     @Field("occupied_business_seats")
     private Integer occupiedBusinessSeats;
 
-    @DBRef
     @Field("agency")
     private Agency agency;
 
-    @DBRef
     @Field("plane")
     private Plane plane;
 

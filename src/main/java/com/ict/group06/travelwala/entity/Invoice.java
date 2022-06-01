@@ -31,7 +31,6 @@ public class Invoice {
     @Setter
     private LocalDateTime createdAt;
 
-    @DBRef
     @Setter
     private Booking booking;
 

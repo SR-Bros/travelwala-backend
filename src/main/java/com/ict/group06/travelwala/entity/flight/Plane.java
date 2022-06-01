@@ -38,4 +38,8 @@ public class Plane {
         this.maximumEconomicCapacity = maximumEconomicCapacity;
         this.maximumBusinessCapacity = maximumBusinessCapacity;
     }
+
+    public String getName() {
+        return this.manufacturer.concat(this.code);
+    }
 }
