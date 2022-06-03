@@ -38,7 +38,28 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightResponse createNewFlight(FlightRequest flightRequest) {
-        return null;
+        Flight flight = new Flight();
+
+        flight.setCode(flightRequest.getCode());
+        flight.setAdultEconomicPrice(flightRequest.getAdultEconomicPrice());
+        flight.setAdultBusinessPrice(flightRequest.getAdultBusinessPrice());
+        flight.setDiscountRate(flightRequest.getDiscountRate());
+        flight.setArrivalAirport(airportRepository.findByName(flightRequest.getArrivalAirport()).orElseThrow(() ->
+                new RecordNotFoundException("Arrival airport not found")
+        ));
+        flight.setDepartureAirport(airportRepository.findByName(flightRequest.getDepartureAirport()).orElseThrow(() ->
+                new RecordNotFoundException("Departure airport not found")
+        ));
+        flight.setAgency(agencyRepository.findById(flightRequest.getAgencyId()).orElseThrow(()->
+                new RecordNotFoundException("Agency not found")
+        ));
+        flight.setPlane(planeRepository.findById(flightRequest.getPlaneId()).orElseThrow(()->
+                new RecordNotFoundException("Plane not found")
+        ));
+        flight.setDepartureTime(flightRequest.getDepartureTime());
+        flight.setExpectedArrivalTime(flightRequest.getExpectedArrivalTime());
+
+        return new FlightResponse(flightRepository.save(flight));
     }
 
     @Override
