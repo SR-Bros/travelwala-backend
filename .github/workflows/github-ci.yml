@@ -7,6 +7,7 @@ on:
 
 env:
   IMAGE_PATH: ${{ secrets.IMAGE_PATH }}
+  PROFILE: prod
 
 jobs:
   jib-package:
@@ -20,6 +21,7 @@ jobs:
           -Dimage=${{ env.IMAGE_PATH }} \
           -Djib.to.auth.username=${{ secrets.DOCKERHUB_USERNAME }} \
           -Djib.to.auth.password=${{ secrets.DOCKERHUB_PASSWORD }} \
+          -DSPRING_PROFILE=${{ env.PROFILE }}
 
   deploy_production:
     runs-on: ubuntu-latest
