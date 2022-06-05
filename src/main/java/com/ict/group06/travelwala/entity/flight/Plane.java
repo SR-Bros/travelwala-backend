@@ -24,14 +24,19 @@ public class Plane {
     @Setter
     private String code;
 
-    @Field("maximum_capacity")
+    @Field("maximum_economic_capacity")
     @Setter
-    private Integer maximumCapacity;
+    private Integer maximumEconomicCapacity;
 
-    public Plane(String manufacturer, String code, Integer maximumCapacity) {
+    @Field("maximum_business_capacity")
+    @Setter
+    private Integer maximumBusinessCapacity;
+
+    public Plane(String manufacturer, String code, Integer maximumBusinessCapacity, Integer maximumEconomicCapacity) {
         this.manufacturer = manufacturer;
         this.code = code;
-        this.maximumCapacity = maximumCapacity;
+        this.maximumEconomicCapacity = maximumEconomicCapacity;
+        this.maximumBusinessCapacity = maximumBusinessCapacity;
     }
 
     public String getName() {

@@ -18,7 +18,7 @@ public class FlightController {
         this.flightService = flightService;
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<?> findAll(@RequestBody FlightCriteria flightCriteria) {
         return ResponseEntity.ok(flightService.findAll(flightCriteria));
     }

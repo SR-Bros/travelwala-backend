@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -14,8 +15,8 @@ public class FlightCriteria {
     private Integer childCount;
     private Integer infantCount;
     private String departureCity;
-    private LocalDateTime departureDate;
+    private LocalDate departureDate;
     private String arrivalCity;
-    private LocalDateTime returnDate;
+    private LocalDate returnDate;
     private String seatClass;
 }
