@@ -27,9 +27,10 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public List<FlightResponse> findAll(FlightCriteria flightCriteria) {
         if(flightCriteria.getAdultCount() >= 1 && flightCriteria.getChildCount() >=0 && flightCriteria.getInfantCount() >=0) {
-            //if(flightCriteria.getDepartureCity().compareToIgnoreCase(flightCriteria.getArrivalCity()) != 0 && flightCriteria.getReturnDate().isAfter(flightCriteria.getDepartureDate())){
+            if(flightCriteria.getDepartureCity().compareToIgnoreCase(flightCriteria.getArrivalCity()) != 0 &&
+                    (flightCriteria.getReturnDate().isAfter(flightCriteria.getDepartureDate())) || flightCriteria.getReturnDate().isEqual(flightCriteria.getDepartureDate())){
                  return this.flightRepository.findWithCriteria(flightCriteria).stream().map(FlightResponse::new).collect(Collectors.toList());
-            //}
+            }
         }
         return null;
     }

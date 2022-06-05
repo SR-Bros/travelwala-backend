@@ -4,13 +4,15 @@ import com.ict.group06.travelwala.entity.flight.Flight;
 import com.ict.group06.travelwala.model.request.FlightCriteria;
 import com.ict.group06.travelwala.repository.FlightRepository;
 import com.ict.group06.travelwala.repository.core.WalaRepositoryImpl;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.*;
 
 @Component
 public class FlightRepositoryImpl extends WalaRepositoryImpl<Flight, String> implements FlightRepository {
@@ -21,13 +23,51 @@ public class FlightRepositoryImpl extends WalaRepositoryImpl<Flight, String> imp
 
     @Override
     public List<Flight> findWithCriteria(FlightCriteria flightCriteria) {
+        // lay ra tong so ghe ngoi (hay so ve)
         int totalPassengers = flightCriteria.getAdultCount() + flightCriteria.getChildCount() + flightCriteria.getInfantCount();
-        Query query = new Query();
+        // day la bien de luu tru Document dang Json (cai ma de truy van tim ra cac chuyen bay du so ghe)
+        StringBuilder availableTicketQuery = null;
+        // match Stage MongoDB: tim ra cac ban ghi co cung thanh pho muon den va muon di
+        MatchOperation matchFromOperation = Aggregation.match(Criteria.where("arrival_airports.city").is(flightCriteria.getArrivalCity()).andOperator(Criteria.where("departure_airports.city").is(flightCriteria.getDepartureCity())));
+        // match Stage MongoDB: tim ra cac ban ghi co cung thanh pho muon di va muon ve (no se hoi nguoc lai 1 chut)
+        MatchOperation matchToOperation = Aggregation.match(Criteria.where("arrival_airports.city").is(flightCriteria.getDepartureCity()).andOperator(Criteria.where("departure_airports.city").is(flightCriteria.getArrivalCity())));
+        // match Stage MongoDB: tim ra cac ban ghi co total la true
+        MatchOperation matchTicketOperation = Aggregation.match(Criteria.where("total").is(true));
+        // match Stage MongoDB: tim ra cac ban ghi trong ngay(tu 00h00 den 23h59) ma khach muon di
+        MatchOperation matchDepartureDateOperation = Aggregation.match(Criteria.where("departure_time").gte(flightCriteria.getDepartureDate()).lt(flightCriteria.getDepartureDate().plusDays(1)));
+        // addFields Stage MongoDB: them 1 truong "total" vao tat ca cac ban ghi ("total" la ket qua boolean cua viec co du ve hay khong?)
+        AddFieldsOperation addFieldsOperation;
         if(flightCriteria.getSeatClass().equals("Economic")) {
-            query.addCriteria(Criteria.where("plane.maximum_economic_capacity").gte(totalPassengers));
-            System.out.println(query.toString());
-            return this.mongoTemplate.find(query, Flight.class);
+            availableTicketQuery = new StringBuilder().append("{ $gte: [{\n" +
+                    "    $subtract: [\"$plane.maximum_economic_capacity\", \"$occupied_economic_seats\"], \n" +
+                    "  } , ").append(totalPassengers).append("]}");
+        } else if(flightCriteria.getSeatClass().equals("Business")) {
+            availableTicketQuery = new StringBuilder().append("{ $gte: [{\n" +
+                    "    $subtract: [\"$plane.maximum_business_capacity\", \"$occupied_business_seats\"], \n" +
+                    "  } , ").append(totalPassengers).append("]}");
         }
-        return null;
+        // check null truoc khi operating
+        assert availableTicketQuery != null;
+        addFieldsOperation = Aggregation.addFields().addFieldWithValueOf("total", Document.parse(availableTicketQuery.toString())).build();
+        Aggregation myAggFrom = Aggregation.newAggregation(matchFromOperation, matchDepartureDateOperation, addFieldsOperation, matchTicketOperation);
+        AggregationResults<Flight> outputFrom = mongoTemplate.aggregate(myAggFrom, "flights", Flight.class);
+        // tra ve 1 list cac chuyen bay trong ngay di thoa man het cac dieu kien (nhung chung ta can xu ly ngay ve)
+        List <Flight> result = new ArrayList<Flight> (outputFrom.getMappedResults());
+        // xu ly ngay ve (khac null tuc la chon chuyen bay khu hoi co ngay ve tra ra tu frontend)
+        if(flightCriteria.getReturnDate() != null) {
+            //match Stage MongoDB: tìm ra tất cả chuyến bay có thời gian khởi ngày nằm trong ngày về (tu 00h00 den 23h59)
+            MatchOperation matchReturnDateOperation = Aggregation.match(Criteria.where("departure_time").gte(flightCriteria.getReturnDate()).lt(flightCriteria.getReturnDate().plusDays(1)));
+            Aggregation myAggTo = Aggregation.newAggregation(matchToOperation, matchReturnDateOperation, addFieldsOperation, matchTicketOperation);
+            AggregationResults<Flight> outputTo = mongoTemplate.aggregate(myAggTo, "flights", Flight.class);
+            // đến đây chúng ta đã có được kết quả của các chuyến bay về nhưng cần phải check điều kiện thêm
+            if (outputTo.getMappedResults().size() != 0){
+                // vào được đây tức chúng ta đã tìm được ít nhất 1 chuyến bay về
+                List<Flight> test = outputTo.getMappedResults();
+                // thêm các chuyến bay về vào list các chuyến bay đi trước đó
+                result.addAll(outputTo.getMappedResults());
+            }
+        }
+        // cùng trả về kết quả nhé :))) cảm ơn đã đọc đến đây @QT99K64
+        return result;
     }
 }
