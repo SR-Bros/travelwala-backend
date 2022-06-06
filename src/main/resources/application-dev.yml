@@ -1,4 +1,4 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017
+      uri: mongodb+srv://phananh1310:phananh1310@cluster0.abpbn.mongodb.net/test
