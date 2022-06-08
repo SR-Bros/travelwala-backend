@@ -1,10 +1,14 @@
 package com.ict.group06.travelwala.service.impl;
 
 import com.ict.group06.travelwala.entity.flight.Flight;
+import com.ict.group06.travelwala.exception.FlightLocationException;
+import com.ict.group06.travelwala.exception.FlightTimeException;
+import com.ict.group06.travelwala.exception.PassengerException;
 import com.ict.group06.travelwala.exception.RecordNotFoundException;
 import com.ict.group06.travelwala.model.request.FlightCriteria;
 import com.ict.group06.travelwala.model.request.FlightRequest;
 import com.ict.group06.travelwala.model.response.FlightResponse;
+import com.ict.group06.travelwala.model.response.SearchFlightResponse;
 import com.ict.group06.travelwala.repository.AgencyRepository;
 import com.ict.group06.travelwala.repository.AirportRepository;
 import com.ict.group06.travelwala.repository.FlightRepository;
@@ -13,6 +17,8 @@ import com.ict.group06.travelwala.service.FlightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,14 +31,38 @@ public class FlightServiceImpl implements FlightService {
     private final AgencyRepository agencyRepository;
 
     @Override
-    public List<FlightResponse> findAll(FlightCriteria flightCriteria) {
-        if(flightCriteria.getAdultCount() >= 1 && flightCriteria.getChildCount() >=0 && flightCriteria.getInfantCount() >=0) {
-            if(flightCriteria.getDepartureCity().compareToIgnoreCase(flightCriteria.getArrivalCity()) != 0 &&
-                    (flightCriteria.getReturnDate().isAfter(flightCriteria.getDepartureDate())) || flightCriteria.getReturnDate().isEqual(flightCriteria.getDepartureDate())){
-                 return this.flightRepository.findWithCriteria(flightCriteria).stream().map(FlightResponse::new).collect(Collectors.toList());
-            }
+    public SearchFlightResponse findAll(FlightCriteria flightCriteria) {
+        if(flightCriteria.getAdultCount() < 1 || flightCriteria.getChildCount() < 0 || flightCriteria.getInfantCount() < 0) {
+            throw new PassengerException("Invalid seats count");
         }
-        return null;
+
+        if(flightCriteria.getDepartureCity().equalsIgnoreCase(flightCriteria.getArrivalCity())) {
+            throw new FlightLocationException("Departure city must differ from arrival city");
+        }
+
+        if(flightCriteria.getReturnDate().isBefore(flightCriteria.getDepartureDate()) &&
+            !flightCriteria.getReturnDate().isEqual(flightCriteria.getDepartureDate())) {
+            throw new FlightTimeException("Invalid return date or departure date");
+        }
+
+        List<FlightResponse> departureFlights = new ArrayList<>();
+        List<FlightResponse> arrivalFlights = new ArrayList<>();
+
+        this.flightRepository.findWithCriteria(flightCriteria).forEach(flight -> {
+            // build departure flights
+            if(flight.getDepartureTime().isAfter(LocalDateTime.now()) &&
+                flight.getDepartureTime().toLocalDate().isEqual(flightCriteria.getDepartureDate())
+            ) {
+                departureFlights.add(new FlightResponse(flight));
+            }
+
+            // build return flights
+            if(flight.getDepartureTime().toLocalDate().isEqual(flightCriteria.getReturnDate())) {
+                arrivalFlights.add(new FlightResponse(flight));
+            }
+        });
+
+        return new SearchFlightResponse(departureFlights, arrivalFlights);
     }
 
     @Override
