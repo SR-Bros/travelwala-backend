@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/flights")
 public class FlightController {
     private final FlightService flightService;
@@ -18,7 +19,7 @@ public class FlightController {
         this.flightService = flightService;
     }
 
-    @GetMapping()
+    @PostMapping ("/search")
     public ResponseEntity<?> findAll(@RequestBody FlightCriteria flightCriteria) {
         return ResponseEntity.ok(flightService.findAll(flightCriteria));
     }
