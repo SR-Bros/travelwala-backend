@@ -26,7 +26,8 @@ public class FlightResponse {
     private LocalDateTime expectedArrivalTime;
     private Integer occupiedEconomicSeats;
     private Integer occupiedBusinessSeats;
-    private String plane;
+    private PlaneResponse plane;
+    private AgencyResponse agency;
 
     public FlightResponse(Flight flight) {
         this.id = flight.getId();
@@ -42,6 +43,7 @@ public class FlightResponse {
         this.expectedArrivalTime = flight.getExpectedArrivalTime();
         this.occupiedEconomicSeats = flight.getOccupiedEconomicSeats();
         this.occupiedBusinessSeats = flight.getOccupiedBusinessSeats();
-        this.plane = flight.getPlane().getName();
+        this.plane = new PlaneResponse(flight.getPlane());
+        this.agency = new AgencyResponse(flight.getAgency());
     }
 }
