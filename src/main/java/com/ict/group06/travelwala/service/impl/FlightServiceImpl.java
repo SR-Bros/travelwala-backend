@@ -40,7 +40,8 @@ public class FlightServiceImpl implements FlightService {
             throw new FlightLocationException("Departure city must differ from arrival city");
         }
 
-        if(flightCriteria.getReturnDate().isBefore(flightCriteria.getDepartureDate()) &&
+        if(flightCriteria.getReturnDate() != null &&
+            flightCriteria.getReturnDate().isBefore(flightCriteria.getDepartureDate()) &&
             !flightCriteria.getReturnDate().isEqual(flightCriteria.getDepartureDate())) {
             throw new FlightTimeException("Invalid return date or departure date");
         }
@@ -57,7 +58,8 @@ public class FlightServiceImpl implements FlightService {
             }
 
             // build return flights
-            if(flight.getDepartureTime().toLocalDate().isEqual(flightCriteria.getReturnDate())) {
+            if(flightCriteria.getReturnDate() != null &&
+                flight.getDepartureTime().toLocalDate().isEqual(flightCriteria.getReturnDate())) {
                 arrivalFlights.add(new FlightResponse(flight));
             }
         });
