@@ -37,7 +37,7 @@ public class FlightRepositoryImpl extends WalaRepositoryImpl<Flight, String> imp
 
         // addFields Stage MongoDB: them 1 truong "total" vao tat ca cac ban ghi ("total" la ket qua boolean cua viec co du ve hay khong?)
         AddFieldsOperation addFieldsOperation;
-        if(flightCriteria.getSeatClass().equals("Economic")) {
+        if(flightCriteria.getSeatClass().equals("Economy")) {
             availableTicketQuery = new StringBuilder().append("{ $gte: [{\n" +
                     "    $subtract: [\"$plane.maximum_economic_capacity\", \"$occupied_economic_seats\"], \n" +
                     "  } , ").append(totalPassengers).append("]}");
