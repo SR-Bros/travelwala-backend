@@ -7,8 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AgencyRequest {
-    private String code;
+public class AirlineRequest {
     private String name;
+    private String alias;
+    private String iata;
+    private String icao;
+    private String callSign;
+    private String country;
+    private Boolean active;
     private Double childPriceRate;
 }

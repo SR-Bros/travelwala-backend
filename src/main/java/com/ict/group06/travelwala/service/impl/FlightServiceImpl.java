@@ -9,7 +9,7 @@ import com.ict.group06.travelwala.model.request.FlightCriteria;
 import com.ict.group06.travelwala.model.request.FlightRequest;
 import com.ict.group06.travelwala.model.response.FlightResponse;
 import com.ict.group06.travelwala.model.response.SearchFlightResponse;
-import com.ict.group06.travelwala.repository.AgencyRepository;
+import com.ict.group06.travelwala.repository.AirlineRepository;
 import com.ict.group06.travelwala.repository.AirportRepository;
 import com.ict.group06.travelwala.repository.FlightRepository;
 import com.ict.group06.travelwala.repository.PlaneRepository;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +27,7 @@ public class FlightServiceImpl implements FlightService {
     private final FlightRepository flightRepository;
     private final AirportRepository airportRepository;
     private final PlaneRepository planeRepository;
-    private final AgencyRepository agencyRepository;
+    private final AirlineRepository airlineRepository;
 
     @Override
     public SearchFlightResponse findAll(FlightCriteria flightCriteria) {
@@ -89,7 +88,7 @@ public class FlightServiceImpl implements FlightService {
         flight.setDepartureAirport(airportRepository.findByName(flightRequest.getDepartureAirport()).orElseThrow(() ->
                 new RecordNotFoundException("Departure airport not found")
         ));
-        flight.setAgency(agencyRepository.findById(flightRequest.getAgencyId()).orElseThrow(()->
+        flight.setAirline(airlineRepository.findById(flightRequest.getAgencyId()).orElseThrow(()->
                 new RecordNotFoundException("Agency not found")
         ));
         flight.setPlane(planeRepository.findById(flightRequest.getPlaneId()).orElseThrow(()->
@@ -116,7 +115,7 @@ public class FlightServiceImpl implements FlightService {
         flight.setDepartureAirport(airportRepository.findByName(flightRequest.getDepartureAirport()).orElseThrow(() ->
                 new RecordNotFoundException("Departure airport not found")
         ));
-        flight.setAgency(agencyRepository.findById(flightRequest.getAgencyId()).orElseThrow(()->
+        flight.setAirline(airlineRepository.findById(flightRequest.getAgencyId()).orElseThrow(()->
                 new RecordNotFoundException("Agency not found")
         ));
         flight.setPlane(planeRepository.findById(flightRequest.getPlaneId()).orElseThrow(()->

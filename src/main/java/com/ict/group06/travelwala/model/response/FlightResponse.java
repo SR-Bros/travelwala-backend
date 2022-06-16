@@ -27,7 +27,7 @@ public class FlightResponse {
     private Integer occupiedEconomicSeats;
     private Integer occupiedBusinessSeats;
     private PlaneResponse plane;
-    private AgencyResponse agency;
+    private AirlineResponse agency;
 
     public FlightResponse(Flight flight) {
         this.id = flight.getId();
@@ -44,6 +44,6 @@ public class FlightResponse {
         this.occupiedEconomicSeats = flight.getOccupiedEconomicSeats();
         this.occupiedBusinessSeats = flight.getOccupiedBusinessSeats();
         this.plane = new PlaneResponse(flight.getPlane());
-        this.agency = new AgencyResponse(flight.getAgency());
+        this.agency = new AirlineResponse(flight.getAirline());
     }
 }
