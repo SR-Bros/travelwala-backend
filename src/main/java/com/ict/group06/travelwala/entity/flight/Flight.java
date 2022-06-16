@@ -50,7 +50,7 @@ public class Flight {
     @Field("occupied_business_seats")
     private Integer occupiedBusinessSeats;
 
-    @Field("agency")
+    @Field("airline")
     private Airline airline;
 
     @Field("plane")
