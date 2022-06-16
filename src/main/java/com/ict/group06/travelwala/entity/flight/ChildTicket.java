@@ -12,6 +12,6 @@ public class ChildTicket extends Ticket {
 
     @Override
     public double getPrice() {
-        return super.getPrice() * this.flight.getAgency().getChildPriceRate();
+        return super.getPrice() * this.flight.getAirline().getChildPriceRate();
     }
 }

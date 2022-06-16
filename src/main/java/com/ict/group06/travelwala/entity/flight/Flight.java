@@ -1,12 +1,10 @@
 package com.ict.group06.travelwala.entity.flight;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -52,15 +50,15 @@ public class Flight {
     @Field("occupied_business_seats")
     private Integer occupiedBusinessSeats;
 
-    @Field("agency")
-    private Agency agency;
+    @Field("airline")
+    private Airline airline;
 
     @Field("plane")
     private Plane plane;
 
     public Flight(Double adultEconomicPrice, Double adultBusinessPrice, Double discountRate,
                   Airport departureAirport, Airport arrivalAirport, LocalDateTime departureTime,
-                  LocalDateTime expectedArrivalTime, Agency agency, Plane plane) {
+                  LocalDateTime expectedArrivalTime, Airline airline, Plane plane) {
         this.adultEconomicPrice = adultEconomicPrice;
         this.adultBusinessPrice = adultBusinessPrice;
         this.discountRate = discountRate;
@@ -70,14 +68,14 @@ public class Flight {
         this.expectedArrivalTime = expectedArrivalTime;
         this.occupiedEconomicSeats = 0;
         this.occupiedBusinessSeats = 0;
-        this.agency = agency;
+        this.airline = airline;
         this.plane = plane;
     }
 
     public Flight(Double adultEconomicPrice, Double adultBusinessPrice, Double discountRate,
                   Airport departureAirport, Airport arrivalAirport, LocalDateTime departureTime,
                   LocalDateTime expectedArrivalTime, Integer occupiedEconomicSeats, Integer occupiedBusinessSeats,
-                  Agency agency, Plane plane) {
+                  Airline airline, Plane plane) {
         this.adultEconomicPrice = adultEconomicPrice;
         this.adultBusinessPrice = adultBusinessPrice;
         this.discountRate = discountRate;
@@ -87,7 +85,7 @@ public class Flight {
         this.expectedArrivalTime = expectedArrivalTime;
         this.occupiedEconomicSeats = occupiedEconomicSeats;
         this.occupiedBusinessSeats = occupiedBusinessSeats;
-        this.agency = agency;
+        this.airline = airline;
         this.plane = plane;
     }
 }
