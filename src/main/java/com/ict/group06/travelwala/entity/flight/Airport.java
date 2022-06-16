@@ -20,6 +20,10 @@ public class Airport {
     @Setter
     private String name;
 
+    @Field("iata")
+    @Setter
+    private String iata;
+
     @Field("city")
     @Setter
     private String city;
@@ -28,9 +32,20 @@ public class Airport {
     @Setter
     private String country;
 
-    public Airport(String name, String city, String country) {
+    @Field("latitude")
+    @Setter
+    private Double latitude;
+
+    @Field("longitude")
+    @Setter
+    private Double longitude;
+
+    public Airport(String name, String iata, String city, String country, Double latitude, Double longitude) {
         this.name = name;
+        this.iata = iata;
         this.city = city;
         this.country = country;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }

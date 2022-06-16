@@ -11,10 +11,16 @@ import lombok.NoArgsConstructor;
 public class AirportResponse {
     private String id;
     private String name;
+    private String iata;
     private String city;
     private String country;
+    private Double latitude;
+    private Double longitude;
 
     public AirportResponse(Airport airport) {
-        this(airport.getId(), airport.getName(), airport.getCity(), airport.getCountry());
+        this(airport.getId(), airport.getName(), airport.getIata(),
+            airport.getCity(), airport.getCountry(),
+            airport.getLatitude(), airport.getLongitude()
+        );
     }
 }

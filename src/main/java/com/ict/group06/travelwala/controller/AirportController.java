@@ -1,8 +1,6 @@
 package com.ict.group06.travelwala.controller;
 
 import com.ict.group06.travelwala.exception.RecordNotFoundException;
-import com.ict.group06.travelwala.model.request.AirportRequest;
-import com.ict.group06.travelwala.model.response.AirportResponse;
 import com.ict.group06.travelwala.service.AirportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,22 +25,5 @@ public class AirportController {
         } catch (RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-    }
-
-    @PostMapping()
-    public ResponseEntity<?> createNewAirport(@RequestBody AirportRequest airportRequest) {
-        return ResponseEntity.ok(airportService.createNewAirport(airportRequest));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateAirport(@PathVariable("id") String id,
-                                          @RequestBody AirportRequest airportRequest) {
-        try {
-            AirportResponse airportResponse = airportService.updateAirport(id, airportRequest);
-            return ResponseEntity.ok(airportResponse);
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-
     }
 }
