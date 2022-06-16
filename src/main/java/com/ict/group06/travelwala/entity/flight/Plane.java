@@ -19,10 +19,17 @@ public class Plane {
     @Setter
     private String manufacturer;
 
-    @Field("code")
-    @Indexed(unique = true, name = "plane_code_unique")
+    @Field("iata")
     @Setter
-    private String code;
+    private String iata;
+
+    @Field("icao")
+    @Setter
+    private String icao;
+
+    @Field("description")
+    @Setter
+    private String description;
 
     @Field("maximum_economic_capacity")
     @Setter
@@ -32,14 +39,17 @@ public class Plane {
     @Setter
     private Integer maximumBusinessCapacity;
 
-    public Plane(String manufacturer, String code, Integer maximumBusinessCapacity, Integer maximumEconomicCapacity) {
+    public Plane(String manufacturer, String iata, String icao,
+                 String description, Integer maximumEconomicCapacity, Integer maximumBusinessCapacity) {
         this.manufacturer = manufacturer;
-        this.code = code;
+        this.iata = iata;
+        this.icao = icao;
+        this.description = description;
         this.maximumEconomicCapacity = maximumEconomicCapacity;
         this.maximumBusinessCapacity = maximumBusinessCapacity;
     }
 
     public String getName() {
-        return this.manufacturer.concat(this.code);
+        return this.manufacturer.concat(this.iata);
     }
 }

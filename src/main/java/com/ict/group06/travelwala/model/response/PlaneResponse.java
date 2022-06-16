@@ -9,16 +9,20 @@ import lombok.NoArgsConstructor;
 public class PlaneResponse {
     private String id;
     private String manufacturer;
-    private String code;
+    private String iata;
+    private String icao;
     private String name;
+    private String description;
     private Integer maximumEconomicCapacity;
     private Integer maximumBusinessCapacity;
 
     public PlaneResponse(Plane plane) {
         this.id = plane.getId();
         this.manufacturer = plane.getManufacturer();
-        this.code = plane.getCode();
-        this.name = plane.getManufacturer().concat(" ").concat(this.code);
+        this.iata = plane.getIata();
+        this.icao = plane.getIcao();
+        this.name = plane.getManufacturer().concat(" ").concat(this.iata);
+        this.description = plane.getDescription();
         this.maximumEconomicCapacity = plane.getMaximumEconomicCapacity();
         this.maximumBusinessCapacity = plane.getMaximumBusinessCapacity();
     }
