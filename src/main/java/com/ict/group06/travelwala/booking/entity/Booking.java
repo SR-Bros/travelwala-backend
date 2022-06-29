@@ -17,9 +17,13 @@ public class Booking {
     @Id
     private String id;
 
-    @Field("flight_tickets")
+    @Field("flight_ticket_ids")
     @Setter
     private List<String> flightTicketIds;
+
+    @Field("contact_id")
+    @Setter
+    private String contactId;
 
     @Field("status")
     @Setter
@@ -28,8 +32,9 @@ public class Booking {
     @Field("created_at")
     private LocalDateTime createdAt;
 
-    public Booking(List<String> flightTicketIds) {
+    public Booking(List<String> flightTicketIds, String contactId) {
         this.flightTicketIds = flightTicketIds;
+        this.contactId = contactId;
         this.createdAt = LocalDateTime.now();
     }
 }
