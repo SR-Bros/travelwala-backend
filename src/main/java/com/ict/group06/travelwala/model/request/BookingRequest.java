@@ -1,5 +1,6 @@
 package com.ict.group06.travelwala.model.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookingRequest {
-    private FlightBookingRequest flightBookingRequest;
+    @JsonProperty("flight_tickets")
+    private TicketRequest[] flightTickets;
+
+    @JsonProperty("contact")
     private ContactRequest contactRequest;
 }
