@@ -5,15 +5,15 @@ import com.ict.group06.travelwala.exception.FlightLocationException;
 import com.ict.group06.travelwala.exception.FlightTimeException;
 import com.ict.group06.travelwala.exception.PassengerException;
 import com.ict.group06.travelwala.exception.RecordNotFoundException;
-import com.ict.group06.travelwala.model.request.FlightCriteria;
+import com.ict.group06.travelwala.flight.model.request.FlightCriteria;
 import com.ict.group06.travelwala.model.response.FlightResponse;
 import com.ict.group06.travelwala.flight.repository.AirlineRepository;
 import com.ict.group06.travelwala.flight.repository.AirportRepository;
 import com.ict.group06.travelwala.flight.repository.FlightRepository;
 import com.ict.group06.travelwala.flight.repository.PlaneRepository;
 import com.ict.group06.travelwala.flight.service.FlightService;
-import com.ict.group06.travelwala.model.request.FlightRequest;
-import com.ict.group06.travelwala.model.response.SearchFlightResponse;
+import com.ict.group06.travelwala.flight.model.request.FlightRequest;
+import com.ict.group06.travelwala.flight.model.response.SearchFlightResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

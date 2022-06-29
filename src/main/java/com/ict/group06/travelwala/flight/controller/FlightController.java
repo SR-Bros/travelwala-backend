@@ -1,10 +1,10 @@
 package com.ict.group06.travelwala.flight.controller;
 
 import com.ict.group06.travelwala.exception.RecordNotFoundException;
-import com.ict.group06.travelwala.model.request.FlightCriteria;
+import com.ict.group06.travelwala.flight.model.request.FlightCriteria;
 import com.ict.group06.travelwala.model.response.FlightResponse;
 import com.ict.group06.travelwala.flight.service.FlightService;
-import com.ict.group06.travelwala.model.request.FlightRequest;
+import com.ict.group06.travelwala.flight.model.request.FlightRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
