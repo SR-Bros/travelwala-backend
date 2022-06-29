@@ -31,13 +31,13 @@ public class Invoice {
     @Setter
     private LocalDateTime createdAt;
 
+    @Field("booking_id")
     @Setter
-    private Booking booking;
+    private String bookingId;
 
-    public Invoice(String code, LocalDateTime createdAt, Booking booking) {
-        this.code = code;
-        this.totalCost = booking.totalCost();
-        this.booking = booking;
+    public Invoice(double totalCost, LocalDateTime createdAt, String bookingId) {
+        this.totalCost = totalCost;
         this.createdAt = createdAt;
+        this.bookingId = bookingId;
     }
 }

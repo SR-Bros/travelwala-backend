@@ -1,4 +1,4 @@
-package com.ict.group06.travelwala.passenger;
+package com.ict.group06.travelwala.passenger.entity;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

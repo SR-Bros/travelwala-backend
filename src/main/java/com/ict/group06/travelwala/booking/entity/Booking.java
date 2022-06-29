@@ -28,12 +28,8 @@ public class Booking {
     @Field("created_at")
     private LocalDateTime createdAt;
 
-    public Booking(FlightBookingItem flightBookingItem) {
-        this.flightBookingItem = flightBookingItem;
+    public Booking(List<String> flightTicketIds) {
+        this.flightTicketIds = flightTicketIds;
         this.createdAt = LocalDateTime.now();
-    }
-
-    public double totalCost() {
-        return this.flightBookingItem.getItemCost();
     }
 }
