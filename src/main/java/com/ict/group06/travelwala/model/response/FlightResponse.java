@@ -1,6 +1,6 @@
 package com.ict.group06.travelwala.model.response;
 
-import com.ict.group06.travelwala.entity.flight.Flight;
+import com.ict.group06.travelwala.flight.entity.Flight;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

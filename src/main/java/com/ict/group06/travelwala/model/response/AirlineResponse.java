@@ -1,11 +1,9 @@
 package com.ict.group06.travelwala.model.response;
 
-import com.ict.group06.travelwala.entity.flight.Airline;
+import com.ict.group06.travelwala.flight.entity.Airline;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @NoArgsConstructor

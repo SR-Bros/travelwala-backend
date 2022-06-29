@@ -1,6 +1,5 @@
 package com.ict.group06.travelwala.model.request;
 
-import com.ict.group06.travelwala.entity.flight.Plane;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
