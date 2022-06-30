@@ -1,4 +1,4 @@
-package com.ict.group06.travelwala.booking.entity;
+package com.ict.group06.travelwala.ticket.entity;
 
 import lombok.Getter;
 import lombok.Setter;
