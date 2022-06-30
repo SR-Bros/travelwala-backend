@@ -5,8 +5,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.time.LocalDateTime;
-
 @Document("passengers")
 @Data
 public class Passenger {
@@ -23,7 +21,7 @@ public class Passenger {
     private String lastName;
 
     @Field("dob")
-    private LocalDateTime dob;
+    private String dob;
 
     @Field("nationality")
     private String nationality;
