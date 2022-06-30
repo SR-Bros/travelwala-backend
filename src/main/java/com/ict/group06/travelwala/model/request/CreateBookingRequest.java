@@ -8,10 +8,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TicketRequest {
-    @JsonProperty("ticket_type")
-    private String ticketType;
+public class CreateBookingRequest {
+    private CreateBookingFlightSpecs createBookingFlightSpecs;
 
-    @JsonProperty("passenger")
-    private PassengerRequest passengerRequest;
+    @JsonProperty("bookingContact")
+    private ContactRequest contactRequest;
 }
