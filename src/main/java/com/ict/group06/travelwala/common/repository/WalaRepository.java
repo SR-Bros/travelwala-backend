@@ -1,4 +1,4 @@
-package com.ict.group06.travelwala.flight.repository.core;
+package com.ict.group06.travelwala.common.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

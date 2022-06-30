@@ -3,7 +3,7 @@ package com.ict.group06.travelwala.flight.repository.impl;
 import com.ict.group06.travelwala.flight.entity.Flight;
 import com.ict.group06.travelwala.flight.model.request.FlightCriteria;
 import com.ict.group06.travelwala.flight.repository.FlightRepository;
-import com.ict.group06.travelwala.flight.repository.core.WalaRepositoryImpl;
+import com.ict.group06.travelwala.common.repository.WalaRepositoryImpl;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
