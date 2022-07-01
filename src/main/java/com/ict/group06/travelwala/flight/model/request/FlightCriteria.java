@@ -1,5 +1,6 @@
 package com.ict.group06.travelwala.flight.model.request;
 
+import com.ict.group06.travelwala.common.enumeration.seatclass.SeatClassEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +19,5 @@ public class FlightCriteria {
     private LocalDate departureDate;
     private String arrivalCity;
     private LocalDate returnDate;
-    private String seatClass;
+    private SeatClassEnum seatClass;
 }

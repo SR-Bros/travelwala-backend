@@ -1,9 +1,10 @@
 package com.ict.group06.travelwala.flight.repository.impl;
 
+import com.ict.group06.travelwala.common.enumeration.seatclass.SeatClassEnum;
 import com.ict.group06.travelwala.flight.entity.Flight;
 import com.ict.group06.travelwala.flight.model.request.FlightCriteria;
 import com.ict.group06.travelwala.flight.repository.FlightRepository;
-import com.ict.group06.travelwala.flight.repository.core.WalaRepositoryImpl;
+import com.ict.group06.travelwala.common.repository.WalaRepositoryImpl;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -36,11 +37,11 @@ public class FlightRepositoryImpl extends WalaRepositoryImpl<Flight, String> imp
 
         // addFields Stage MongoDB: them 1 truong "total" vao tat ca cac ban ghi ("total" la ket qua boolean cua viec co du ve hay khong?)
         AddFieldsOperation addFieldsOperation;
-        if(flightCriteria.getSeatClass().equals("Economy")) {
+        if(flightCriteria.getSeatClass().equals(SeatClassEnum.ECONOMY)) {
             availableTicketQuery = new StringBuilder().append("{ $gte: [{\n" +
                     "    $subtract: [\"$plane.maximum_economic_capacity\", \"$occupied_economic_seats\"], \n" +
                     "  } , ").append(totalPassengers).append("]}");
-        } else if(flightCriteria.getSeatClass().equals("Business")) {
+        } else if(flightCriteria.getSeatClass().equals(SeatClassEnum.BUSINESS)) {
             availableTicketQuery = new StringBuilder().append("{ $gte: [{\n" +
                     "    $subtract: [\"$plane.maximum_business_capacity\", \"$occupied_business_seats\"], \n" +
                     "  } , ").append(totalPassengers).append("]}");

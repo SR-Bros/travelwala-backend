@@ -1,4 +1,4 @@
-package com.ict.group06.travelwala.flight.repository.core;
+package com.ict.group06.travelwala.common.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
