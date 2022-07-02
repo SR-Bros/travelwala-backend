@@ -6,14 +6,15 @@ import com.ict.group06.travelwala.contact.service.ISaveContact;
 import com.ict.group06.travelwala.mapstruct.mappers.ContactMapper;
 import com.ict.group06.travelwala.model.request.ContactRequest;
 import com.ict.group06.travelwala.model.response.ContactResponse;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ContactServiceImpl implements ISaveContact {
-    private ContactRepository contactRepository;
-    private ContactMapper mapper;
+    private final ContactRepository contactRepository;
+    private final ContactMapper mapper = Mappers.getMapper(ContactMapper.class);
 
     @Override
     public ContactResponse saveContact(ContactRequest contact) {
