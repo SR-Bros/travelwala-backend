@@ -1,11 +1,13 @@
 package com.ict.group06.travelwala.flight.service.impl;
 
+import com.ict.group06.travelwala.common.enumeration.seatclass.SeatClassEnum;
 import com.ict.group06.travelwala.flight.entity.Flight;
 import com.ict.group06.travelwala.exception.FlightLocationException;
 import com.ict.group06.travelwala.exception.FlightTimeException;
 import com.ict.group06.travelwala.exception.PassengerException;
 import com.ict.group06.travelwala.exception.RecordNotFoundException;
 import com.ict.group06.travelwala.flight.model.request.FlightCriteria;
+import com.ict.group06.travelwala.flight.service.IAvailableSeatsCheck;
 import com.ict.group06.travelwala.model.response.FlightResponse;
 import com.ict.group06.travelwala.flight.repository.AirlineRepository;
 import com.ict.group06.travelwala.flight.repository.AirportRepository;
@@ -23,7 +25,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FlightServiceImpl implements FlightService {
+public class FlightServiceImpl implements FlightService, IAvailableSeatsCheck {
     private final FlightRepository flightRepository;
     private final AirportRepository airportRepository;
     private final PlaneRepository planeRepository;
@@ -124,5 +126,21 @@ public class FlightServiceImpl implements FlightService {
         flight.setDepartureTime(flightRequest.getDepartureTime());
         flight.setExpectedArrivalTime(flightRequest.getExpectedArrivalTime());
         return new FlightResponse(flightRepository.save(flight));
+    }
+
+    @Override
+    public boolean isEnoughSeats(String flightId, String seatClass, int numberOfSeats) {
+        Flight flight = flightRepository.findById(flightId).orElseThrow(
+                () -> new RecordNotFoundException("No flight found for id " + flightId)
+        );
+
+        if(seatClass.equals(SeatClassEnum.ECONOMY.getValue())) {
+            return flight.getPlane().getMaximumEconomicCapacity() - flight.getOccupiedEconomicSeats() > numberOfSeats;
+        }
+        else if(seatClass.equals(SeatClassEnum.BUSINESS.getValue())) {
+            return flight.getPlane().getMaximumBusinessCapacity() - flight.getOccupiedBusinessSeats() > numberOfSeats;
+        }
+
+        return false;
     }
 }

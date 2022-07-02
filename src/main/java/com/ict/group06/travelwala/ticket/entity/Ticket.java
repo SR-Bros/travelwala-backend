@@ -21,4 +21,10 @@ public class Ticket {
     @Field("passenger_id")
     @Setter
     private String passengerId;
+
+    public Ticket(String seatClass, String flightId, String passengerId) {
+        this.seatClass = seatClass;
+        this.flightId = flightId;
+        this.passengerId = passengerId;
+    }
 }
