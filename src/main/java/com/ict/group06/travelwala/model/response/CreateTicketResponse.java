@@ -15,5 +15,4 @@ public class CreateTicketResponse {
     private PassengerResponse passenger;
     private String seatClass;
     private String flightId;
-    private String departureTime;
 }
