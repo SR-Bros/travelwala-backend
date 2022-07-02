@@ -1,4 +1,4 @@
-package com.ict.group06.travelwala.contact;
+package com.ict.group06.travelwala.contact.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
