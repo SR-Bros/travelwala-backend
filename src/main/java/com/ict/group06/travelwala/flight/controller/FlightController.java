@@ -26,11 +26,7 @@ public class FlightController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") String id) {
-        try {
-            return ResponseEntity.ok(flightService.findById(id));
-        } catch (RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+        return ResponseEntity.ok(flightService.findById(id));
     }
 
     @PostMapping()
@@ -41,12 +37,8 @@ public class FlightController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateFlight(@PathVariable("id") String id,
                                           @RequestBody FlightRequest flightRequest) {
-        try {
-            FlightResponse flightResponse = flightService.updateFlight(id,flightRequest);
-            return ResponseEntity.ok(flightResponse);
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+        FlightResponse flightResponse = flightService.updateFlight(id,flightRequest);
+        return ResponseEntity.ok(flightResponse);
 
     }
 }
