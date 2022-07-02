@@ -5,7 +5,7 @@ import com.ict.group06.travelwala.flight.entity.Flight;
 import com.ict.group06.travelwala.flight.exception.FlightLocationException;
 import com.ict.group06.travelwala.flight.exception.FlightTimeException;
 import com.ict.group06.travelwala.flight.exception.PassengerException;
-import com.ict.group06.travelwala.exception.RecordNotFoundException;
+import com.ict.group06.travelwala.common.exception.RecordNotFoundException;
 import com.ict.group06.travelwala.flight.model.request.FlightCriteria;
 import com.ict.group06.travelwala.flight.service.IAvailableSeatsCheck;
 import com.ict.group06.travelwala.model.response.FlightResponse;

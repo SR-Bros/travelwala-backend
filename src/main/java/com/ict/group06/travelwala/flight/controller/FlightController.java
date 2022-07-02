@@ -1,6 +1,6 @@
 package com.ict.group06.travelwala.flight.controller;
 
-import com.ict.group06.travelwala.exception.RecordNotFoundException;
+import com.ict.group06.travelwala.common.exception.RecordNotFoundException;
 import com.ict.group06.travelwala.flight.model.request.FlightCriteria;
 import com.ict.group06.travelwala.model.response.FlightResponse;
 import com.ict.group06.travelwala.flight.service.FlightService;
