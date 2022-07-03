@@ -14,5 +14,6 @@ public class CreateTicketResponse {
     private String type;
     private PassengerResponse passenger;
     private String seatClass;
+    private Double amount;
     private String flightId;
 }

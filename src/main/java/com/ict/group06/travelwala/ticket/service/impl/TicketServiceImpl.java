@@ -1,5 +1,7 @@
 package com.ict.group06.travelwala.ticket.service.impl;
 
+import com.ict.group06.travelwala.common.enumeration.seatclass.SeatClassEnum;
+import com.ict.group06.travelwala.flight.service.ICalculateFlightFare;
 import com.ict.group06.travelwala.model.request.PassengerRequest;
 import com.ict.group06.travelwala.ticket.enumeration.TicketEnum;
 import com.ict.group06.travelwala.flight.service.IAvailableSeatsCheck;
@@ -26,6 +28,7 @@ public class TicketServiceImpl implements ICreateTicket {
     private TicketRepository ticketRepository;
     private IAvailableSeatsCheck seatsCheck;
     private PassengerService passengerService;
+    private ICalculateFlightFare calculateFlightFare;
 
     @Override
     public List<CreateTicketResponse> createTickets(CreateBookingFlightSpecs.TravellerSpecs passengers, String flightId, String seatClass) {
@@ -49,7 +52,8 @@ public class TicketServiceImpl implements ICreateTicket {
                 .map(passengerRequest -> {
                     PassengerResponse passengerResponse = passengerService.savePassenger(passengerRequest);
                     Ticket ticket = ticketRepository.save(new Ticket(seatClass, flightId, passengerResponse.getId()));
-                    return new CreateTicketResponse(ticket.getId(), ticketType.getValue(), passengerResponse, seatClass, flightId);
+                    double ticketPrice = calculateFlightFare.getFlightFare(ticketType, SeatClassEnum.getEnumFromValue(seatClass), flightId);
+                    return new CreateTicketResponse(ticket.getId(), ticketType.getValue(), passengerResponse, seatClass, ticketPrice, flightId);
                 })
                 .collect(Collectors.toList());
     }

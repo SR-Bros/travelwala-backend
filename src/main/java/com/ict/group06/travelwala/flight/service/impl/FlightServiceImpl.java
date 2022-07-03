@@ -8,6 +8,7 @@ import com.ict.group06.travelwala.flight.exception.PassengerException;
 import com.ict.group06.travelwala.common.exception.RecordNotFoundException;
 import com.ict.group06.travelwala.flight.model.request.FlightCriteria;
 import com.ict.group06.travelwala.flight.service.IAvailableSeatsCheck;
+import com.ict.group06.travelwala.flight.service.ICalculateFlightFare;
 import com.ict.group06.travelwala.model.response.FlightResponse;
 import com.ict.group06.travelwala.flight.repository.AirlineRepository;
 import com.ict.group06.travelwala.flight.repository.AirportRepository;
@@ -16,6 +17,7 @@ import com.ict.group06.travelwala.flight.repository.PlaneRepository;
 import com.ict.group06.travelwala.flight.service.FlightService;
 import com.ict.group06.travelwala.flight.model.request.FlightRequest;
 import com.ict.group06.travelwala.flight.model.response.SearchFlightResponse;
+import com.ict.group06.travelwala.ticket.enumeration.TicketEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FlightServiceImpl implements FlightService, IAvailableSeatsCheck {
+public class FlightServiceImpl implements FlightService, IAvailableSeatsCheck, ICalculateFlightFare {
     private final FlightRepository flightRepository;
     private final AirportRepository airportRepository;
     private final PlaneRepository planeRepository;
@@ -142,5 +144,29 @@ public class FlightServiceImpl implements FlightService, IAvailableSeatsCheck {
         }
 
         return false;
+    }
+
+    @Override
+    public Double getFlightFare(TicketEnum ticketType, SeatClassEnum seatClass, String flightId) {
+        Flight flight = flightRepository.findById(flightId).orElseThrow(
+                () -> new RecordNotFoundException("No flight found for id " + flightId)
+        );
+
+        double basePrice = 0D;
+        if(seatClass == SeatClassEnum.BUSINESS) {
+            basePrice = flight.getAdultBusinessPrice();
+        }
+        else if(seatClass == SeatClassEnum.ECONOMY) {
+            basePrice = flight.getAdultEconomicPrice();
+        }
+
+        switch (ticketType) {
+            case ADULT:
+                return basePrice;
+            case CHILD:
+                return basePrice * flight.getAirline().getChildPriceRate();
+            default:
+                return 0D;
+        }
     }
 }
