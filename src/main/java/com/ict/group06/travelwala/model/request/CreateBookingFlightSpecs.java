@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,9 +17,9 @@ public class CreateBookingFlightSpecs {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class TravellerSpecs {
-        private PassengerRequest[] adultFormData;
-        private PassengerRequest[] childFormData;
-        private PassengerRequest[] infantFormData;
+        private List<PassengerRequest> adultFormData;
+        private List<PassengerRequest> childFormData;
+        private List<PassengerRequest> infantFormData;
     }
 
     @Getter

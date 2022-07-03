@@ -33,16 +33,16 @@ public class TicketServiceImpl implements ICreateTicket {
     @Override
     public List<CreateTicketResponse> createTickets(CreateBookingFlightSpecs.TravellerSpecs passengers, String flightId, String seatClass) {
         // check if there exists enough seats in the flight
-        int totalSeats = passengers.getAdultFormData().length + passengers.getChildFormData().length + passengers.getInfantFormData().length;
+        int totalSeats = passengers.getAdultFormData().size() + passengers.getChildFormData().size() + passengers.getInfantFormData().size();
         if(!seatsCheck.isEnoughSeats(flightId, seatClass, totalSeats)) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Not enough seats");
         }
 
         List<CreateTicketResponse> response = new ArrayList<>();
 
-        response.addAll(this.createTickets(Arrays.asList(passengers.getAdultFormData()), TicketEnum.ADULT, flightId, seatClass));
-        response.addAll(this.createTickets(Arrays.asList(passengers.getChildFormData()), TicketEnum.CHILD, flightId, seatClass));
-        response.addAll(this.createTickets(Arrays.asList(passengers.getInfantFormData()), TicketEnum.INFANT, flightId, seatClass));
+        response.addAll(this.createTickets(passengers.getAdultFormData(), TicketEnum.ADULT, flightId, seatClass));
+        response.addAll(this.createTickets(passengers.getChildFormData(), TicketEnum.CHILD, flightId, seatClass));
+        response.addAll(this.createTickets(passengers.getInfantFormData(), TicketEnum.INFANT, flightId, seatClass));
 
         return response;
     }
