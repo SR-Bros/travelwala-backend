@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateBookingRequest {
+    @Valid
     private CreateBookingFlightSpecs createBookingFlightSpecs;
 
     @JsonProperty("bookingContact")
