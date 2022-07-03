@@ -25,9 +25,9 @@ public class Booking {
     @Setter
     private String contactId;
 
-    @Field("status")
+    @Field("has_paid")
     @Setter
-    private String status;
+    private boolean hasPaid;
 
     @Field("created_at")
     private LocalDateTime createdAt;
@@ -35,6 +35,7 @@ public class Booking {
     public Booking(List<String> flightTicketIds, String contactId) {
         this.flightTicketIds = flightTicketIds;
         this.contactId = contactId;
+        this.hasPaid = false;
         this.createdAt = LocalDateTime.now();
     }
 }
