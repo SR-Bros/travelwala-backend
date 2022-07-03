@@ -19,6 +19,18 @@ public class CreateBookingFlightSpecs {
     @Valid
     private FlightProductSpecs flightProductSpecs;
 
+    public int getAdultNumberOfSeats() {
+        return this.flightProductSpecs.getAdultCount();
+    }
+
+    public int getChildNumberOfSeats() {
+        return this.flightProductSpecs.getChildCount();
+    }
+
+    public int getInfantNumberOfSeats() {
+        return this.flightProductSpecs.getInfantCount();
+    }
+
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor

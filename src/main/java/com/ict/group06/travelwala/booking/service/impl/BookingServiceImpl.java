@@ -1,6 +1,7 @@
 package com.ict.group06.travelwala.booking.service.impl;
 
 import com.ict.group06.travelwala.booking.entity.Booking;
+import com.ict.group06.travelwala.booking.exception.BookingRequestException;
 import com.ict.group06.travelwala.booking.model.response.CreateBookingResponse;
 import com.ict.group06.travelwala.booking.repository.BookingRepository;
 import com.ict.group06.travelwala.booking.service.ICreateBooking;
@@ -26,6 +27,14 @@ public class BookingServiceImpl implements ICreateBooking {
     @Override
     public CreateBookingResponse createBooking(CreateBookingRequest bookingRequest) {
         ContactResponse contactResponse = saveContact.saveContact(bookingRequest.getContactRequest());
+
+        // check if the request number of seats are the same to number of passengers
+        if(bookingRequest.getCreateBookingFlightSpecs().getAdultNumberOfSeats() != bookingRequest.getCreateBookingFlightSpecs().getTravellerSpecs().getAdultFormData().size() ||
+            bookingRequest.getCreateBookingFlightSpecs().getChildNumberOfSeats() != bookingRequest.getCreateBookingFlightSpecs().getTravellerSpecs().getChildFormData().size() ||
+            bookingRequest.getCreateBookingFlightSpecs().getInfantNumberOfSeats() != bookingRequest.getCreateBookingFlightSpecs().getTravellerSpecs().getInfantFormData().size()
+        ) {
+            throw new BookingRequestException("Number of seats and number of travellers are mismatch");
+        }
 
         List<CreateTicketResponse> ticketsResponse = createTicket.createTickets(
                 bookingRequest.getCreateBookingFlightSpecs().getTravellerSpecs(),
