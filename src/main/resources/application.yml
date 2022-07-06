@@ -7,3 +7,6 @@ spring:
   data:
     mongodb:
       database: travelwala
+
+stripe:
+  api_key: sk_test_51LIPOjC6tixmsEI6zcNqgOimJ0k8ISd85qRU5GhVLfSDlcLeBzUk4JcOtFb72JdzJWZvLi6XUvkZRYQu4giyK6hJ00xexJeZt1
