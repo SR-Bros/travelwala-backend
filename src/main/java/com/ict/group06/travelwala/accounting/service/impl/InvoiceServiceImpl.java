@@ -10,6 +10,7 @@ import com.ict.group06.travelwala.model.request.CreateBookingFlightSpecs;
 import com.ict.group06.travelwala.model.response.CreateInvoiceResponse;
 import com.ict.group06.travelwala.ticket.enumeration.TicketEnum;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class InvoiceServiceImpl implements ICreateInvoice {
     private final InvoiceRepository invoiceRepository;
     private final ICalculateFlightFare calculateFlightFare;
-    private final InvoiceMapper mapper;
+    private final InvoiceMapper mapper = Mappers.getMapper(InvoiceMapper.class);
 
     @Override
     public CreateInvoiceResponse createInvoice(String bookingId, CreateBookingFlightSpecs productSpecs) {

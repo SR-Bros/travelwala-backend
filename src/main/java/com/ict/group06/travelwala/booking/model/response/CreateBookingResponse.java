@@ -18,6 +18,4 @@ public class CreateBookingResponse {
     private List<CreateTicketResponse> childTickets;
     private List<CreateTicketResponse> infantTickets;
     private String invoiceId;
-    private Double totalAmount;
-    private Boolean hasPaid;
 }
