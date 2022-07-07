@@ -17,36 +17,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class InvoiceServiceImpl implements ICreateInvoice {
     private final InvoiceRepository invoiceRepository;
-    private final ICalculateFlightFare calculateFlightFare;
     private final InvoiceMapper mapper = Mappers.getMapper(InvoiceMapper.class);
 
     @Override
-    public CreateInvoiceResponse createInvoice(String bookingId, CreateBookingFlightSpecs productSpecs) {
-        double adultAmount = calculateFlightFare.getFlightFare(
-                TicketEnum.ADULT,
-                SeatClassEnum.getEnumFromValue(productSpecs.getFlightProductSpecs().getSeatClass()),
-                productSpecs.getFlightProductSpecs().getFlightId()
-        );
-        double childAmount = calculateFlightFare.getFlightFare(
-                TicketEnum.CHILD,
-                SeatClassEnum.getEnumFromValue(productSpecs.getFlightProductSpecs().getSeatClass()),
-                productSpecs.getFlightProductSpecs().getFlightId()
-        );
-        double infantAmount = calculateFlightFare.getFlightFare(
-                TicketEnum.INFANT,
-                SeatClassEnum.getEnumFromValue(productSpecs.getFlightProductSpecs().getSeatClass()),
-                productSpecs.getFlightProductSpecs().getFlightId()
-        );
-
-        int adultNumberOfSeats = productSpecs.getAdultNumberOfSeats();
-        int childNumberOfSeats = productSpecs.getChildNumberOfSeats();
-        int infantNumberOfSeats = productSpecs.getInfantNumberOfSeats();
-
-        double totalAmount = (double) adultNumberOfSeats * adultAmount
-                + (double) childNumberOfSeats * childAmount
-                + (double) infantNumberOfSeats * infantAmount;
-
-        Invoice invoice = new Invoice(totalAmount, bookingId);
+    public CreateInvoiceResponse createInvoice(String bookingId, double totalAmount) {
+        Invoice invoice = invoiceRepository.save(new Invoice(totalAmount, bookingId));
 
         return mapper.invoiceToInvoiceResponse(invoice);
     }
