@@ -1,6 +1,9 @@
 package com.ict.group06.travelwala.booking.service.impl;
 
+import com.ict.group06.travelwala.accounting.service.ICreateInvoice;
 import com.ict.group06.travelwala.booking.entity.Booking;
+import com.ict.group06.travelwala.booking.entity.BookingLineItem;
+import com.ict.group06.travelwala.booking.entity.FlightBookingLineItem;
 import com.ict.group06.travelwala.booking.exception.BookingRequestException;
 import com.ict.group06.travelwala.booking.model.response.CreateBookingResponse;
 import com.ict.group06.travelwala.booking.repository.BookingRepository;
@@ -23,6 +26,7 @@ public class BookingServiceImpl implements ICreateBooking {
     private final BookingRepository bookingRepository;
     private final ICreateTicket createTicket;
     private final ISaveContact saveContact;
+    private final ICreateInvoice createInvoice;
 
     @Override
     public CreateBookingResponse createBooking(CreateBookingRequest bookingRequest) {
@@ -43,10 +47,18 @@ public class BookingServiceImpl implements ICreateBooking {
         );
 
         Booking savedBooking = bookingRepository.save(new Booking(
-                ticketsResponse.stream().map(CreateTicketResponse::getId).collect(Collectors.toList()),
-                ticketsResponse.stream().map(CreateTicketResponse::getAmount).reduce(0D, Double::sum),
+                ticketsResponse.stream()
+                        .map(ticket -> new FlightBookingLineItem(ticket.getId(), ticket.getAmount()))
+                        .collect(Collectors.toList()),
                 contactResponse.getId()
         ));
+
+        double totalAmount = savedBooking.getBookingLineItems()
+                .stream()
+                .map(bookingLineItem -> bookingLineItem.getUnitPrice() * bookingLineItem.getQuantity())
+                .reduce(0D, Double::sum);
+
+        String invoiceId = createInvoice.createInvoice(savedBooking.getId(), totalAmount).getId();
 
         return new CreateBookingResponse(
                 savedBooking.getId(),
@@ -54,9 +66,7 @@ public class BookingServiceImpl implements ICreateBooking {
                 ticketsResponse.stream().filter(ticket -> ticket.getType().equals(TicketEnum.ADULT.getValue())).collect(Collectors.toList()),
                 ticketsResponse.stream().filter(ticket -> ticket.getType().equals(TicketEnum.CHILD.getValue())).collect(Collectors.toList()),
                 ticketsResponse.stream().filter(ticket -> ticket.getType().equals(TicketEnum.INFANT.getValue())).collect(Collectors.toList()),
-                "0",
-                savedBooking.getAmount(),
-                savedBooking.isHasPaid()
+                invoiceId
         );
 
     }

@@ -17,30 +17,20 @@ public class Booking {
     @Id
     private String id;
 
-    @Field("flight_ticket_ids")
+    @Field("line_items")
     @Setter
-    private List<String> flightTicketIds;
+    private List<BookingLineItem> bookingLineItems;
 
     @Field("contact_id")
     @Setter
     private String contactId;
 
-    @Field("amount")
-    @Setter
-    private Double amount;
-
-    @Field("has_paid")
-    @Setter
-    private boolean hasPaid;
-
     @Field("created_at")
     private LocalDateTime createdAt;
 
-    public Booking(List<String> flightTicketIds, double amount, String contactId) {
-        this.flightTicketIds = flightTicketIds;
-        this.amount = amount;
+    public Booking(List<BookingLineItem> bookingLineItems, String contactId) {
+        this.bookingLineItems = bookingLineItems;
         this.contactId = contactId;
-        this.hasPaid = false;
         this.createdAt = LocalDateTime.now();
     }
 }
