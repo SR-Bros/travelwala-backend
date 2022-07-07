@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Setter
 @Getter
-public class CreateInvoiceResponse {
+public class InvoiceResponse {
     private String id;
     private String bookingId;
     private Double totalAmount;
