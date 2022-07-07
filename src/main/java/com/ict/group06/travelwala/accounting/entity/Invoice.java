@@ -1,5 +1,6 @@
-package com.ict.group06.travelwala.accounting;
+package com.ict.group06.travelwala.accounting.entity;
 
+import com.ict.group06.travelwala.accounting.enumeration.InvoiceStatus;
 import com.ict.group06.travelwala.booking.entity.Booking;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,26 +19,30 @@ public class Invoice {
     @Id
     private String id;
 
-    @Field("code")
-    @Indexed(unique = true, name = "invoice_code_unique")
+    @Field("booking_id")
     @Setter
-    private String code;
+    private String bookingId;
 
     @Field("total_cost")
     @Setter
     private double totalCost;
 
+    @Field("status")
+    @Setter
+    private InvoiceStatus status;
+
     @Field("created_at")
     @Setter
     private LocalDateTime createdAt;
 
-    @Field("booking_id")
+    @Field("paid_at")
     @Setter
-    private String bookingId;
+    private LocalDateTime paidAt;
 
-    public Invoice(double totalCost, LocalDateTime createdAt, String bookingId) {
+    public Invoice(double totalCost, String bookingId) {
         this.totalCost = totalCost;
-        this.createdAt = createdAt;
         this.bookingId = bookingId;
+        this.status = InvoiceStatus.UNPAID;
+        this.createdAt = LocalDateTime.now();
     }
 }
