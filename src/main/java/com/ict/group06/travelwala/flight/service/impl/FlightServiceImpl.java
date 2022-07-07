@@ -9,6 +9,7 @@ import com.ict.group06.travelwala.common.exception.RecordNotFoundException;
 import com.ict.group06.travelwala.flight.model.request.FlightCriteria;
 import com.ict.group06.travelwala.flight.service.IAvailableSeatsCheck;
 import com.ict.group06.travelwala.flight.service.ICalculateFlightFare;
+import com.ict.group06.travelwala.flight.service.IOccupySeats;
 import com.ict.group06.travelwala.model.response.FlightResponse;
 import com.ict.group06.travelwala.flight.repository.AirlineRepository;
 import com.ict.group06.travelwala.flight.repository.AirportRepository;
@@ -27,7 +28,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FlightServiceImpl implements FlightService, IAvailableSeatsCheck, ICalculateFlightFare {
+public class FlightServiceImpl implements FlightService, IAvailableSeatsCheck, ICalculateFlightFare, IOccupySeats {
     private final FlightRepository flightRepository;
     private final AirportRepository airportRepository;
     private final PlaneRepository planeRepository;
@@ -168,5 +169,21 @@ public class FlightServiceImpl implements FlightService, IAvailableSeatsCheck, I
             default:
                 return 0D;
         }
+    }
+
+    @Override
+    public void occupy(String flightId, int numberOfSeats, SeatClassEnum seatClass) {
+        Flight flight = flightRepository.findById(flightId).orElseThrow(
+                () -> new RecordNotFoundException("No flight found for id " + flightId)
+        );
+
+        if(seatClass == SeatClassEnum.BUSINESS) {
+            flight.setOccupiedBusinessSeats(flight.getOccupiedBusinessSeats() + numberOfSeats);
+        }
+        else if(seatClass == SeatClassEnum.ECONOMY) {
+            flight.setOccupiedEconomicSeats(flight.getOccupiedEconomicSeats() + numberOfSeats);
+        }
+
+        flightRepository.save(flight);
     }
 }

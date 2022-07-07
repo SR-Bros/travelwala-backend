@@ -2,6 +2,7 @@ package com.ict.group06.travelwala.ticket.service.impl;
 
 import com.ict.group06.travelwala.common.enumeration.seatclass.SeatClassEnum;
 import com.ict.group06.travelwala.flight.service.ICalculateFlightFare;
+import com.ict.group06.travelwala.flight.service.IOccupySeats;
 import com.ict.group06.travelwala.model.request.PassengerRequest;
 import com.ict.group06.travelwala.ticket.enumeration.TicketEnum;
 import com.ict.group06.travelwala.flight.service.IAvailableSeatsCheck;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +29,7 @@ public class TicketServiceImpl implements ICreateTicket {
     private IAvailableSeatsCheck seatsCheck;
     private PassengerService passengerService;
     private ICalculateFlightFare calculateFlightFare;
+    private IOccupySeats occupySeats;
 
     @Override
     public List<CreateTicketResponse> createTickets(CreateBookingFlightSpecs.TravellerSpecs passengers, String flightId, String seatClass) {
@@ -43,6 +44,8 @@ public class TicketServiceImpl implements ICreateTicket {
         response.addAll(this.createTickets(passengers.getAdultFormData(), TicketEnum.ADULT, flightId, seatClass));
         response.addAll(this.createTickets(passengers.getChildFormData(), TicketEnum.CHILD, flightId, seatClass));
         response.addAll(this.createTickets(passengers.getInfantFormData(), TicketEnum.INFANT, flightId, seatClass));
+
+        occupySeats.occupy(flightId, totalSeats, SeatClassEnum.getEnumFromValue(seatClass));
 
         return response;
     }
