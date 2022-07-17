@@ -44,8 +44,11 @@ public class CreateBookingFlightSpecs {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class FlightProductSpecs {
-        @NotBlank(message = "Please provide flight id to be booked")
-        private String flightId;
+        @NotBlank(message = "Please provide departure flight id to be booked")
+        private String departureFlightId;
+
+        @NotBlank(message = "Please provide departure flight id to be booked")
+        private String returnFlightId;
 
         private String seatClass;
 
