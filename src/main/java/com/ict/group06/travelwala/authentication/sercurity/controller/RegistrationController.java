@@ -14,6 +14,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("*")
 @RequestMapping(value = "/api/register", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RegistrationController {
 
