@@ -1,7 +1,7 @@
 host:
-  localhost:8080
+  103.163.119.109:8080
 redirect-host:
-  google.com
+  localhost:3000
 server:
   port: 8080
 
