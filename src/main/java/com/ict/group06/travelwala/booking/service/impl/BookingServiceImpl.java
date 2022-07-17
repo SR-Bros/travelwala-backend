@@ -2,7 +2,6 @@ package com.ict.group06.travelwala.booking.service.impl;
 
 import com.ict.group06.travelwala.accounting.service.ICreateInvoice;
 import com.ict.group06.travelwala.booking.entity.Booking;
-import com.ict.group06.travelwala.booking.entity.BookingLineItem;
 import com.ict.group06.travelwala.booking.entity.FlightBookingLineItem;
 import com.ict.group06.travelwala.booking.exception.BookingRequestException;
 import com.ict.group06.travelwala.booking.model.response.CreateBookingResponse;
@@ -40,11 +39,22 @@ public class BookingServiceImpl implements ICreateBooking {
             throw new BookingRequestException("Number of seats and number of travellers are mismatch");
         }
 
+        // create tickets for departure flight
         List<CreateTicketResponse> ticketsResponse = createTicket.createTickets(
                 bookingRequest.getCreateBookingFlightSpecs().getTravellerSpecs(),
-                bookingRequest.getCreateBookingFlightSpecs().getFlightProductSpecs().getFlightId(),
+                bookingRequest.getCreateBookingFlightSpecs().getFlightProductSpecs().getDepartureFlightId(),
                 bookingRequest.getCreateBookingFlightSpecs().getFlightProductSpecs().getSeatClass()
         );
+
+        // create tickets for return flight
+        String returnFlightId = bookingRequest.getCreateBookingFlightSpecs().getFlightProductSpecs().getReturnFlightId();
+        if(returnFlightId != null && !returnFlightId.isBlank()) {
+            ticketsResponse.addAll(createTicket.createTickets(
+                    bookingRequest.getCreateBookingFlightSpecs().getTravellerSpecs(),
+                    returnFlightId,
+                    bookingRequest.getCreateBookingFlightSpecs().getFlightProductSpecs().getSeatClass()
+            ));
+        }
 
         Booking savedBooking = bookingRepository.save(new Booking(
                 ticketsResponse.stream()
