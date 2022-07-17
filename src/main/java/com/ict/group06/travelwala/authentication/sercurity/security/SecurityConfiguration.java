@@ -37,6 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         authenticationFilter.setFilterProcessesUrl("/api/login");
 
         http
+                .cors().disable()
                 .csrf().disable().httpBasic() .and()
                 .authorizeRequests()
                     .antMatchers("/api/register/**","/api/login","/api/token/refresh","/api/**")
