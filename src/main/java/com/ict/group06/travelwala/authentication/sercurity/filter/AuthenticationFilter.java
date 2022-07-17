@@ -66,9 +66,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         BeanUtils.copyProperties(user,userLoginResponse);
         LoginResponse loginResponse = new LoginResponse(loginToken,userLoginResponse);
         response.setContentType(APPLICATION_JSON_VALUE);
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-        response.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With, Accept");
         new ObjectMapper().writeValue(response.getOutputStream(),loginResponse);
     }
 
