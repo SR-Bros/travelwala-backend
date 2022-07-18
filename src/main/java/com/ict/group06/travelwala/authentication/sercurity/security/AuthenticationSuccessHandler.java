@@ -85,7 +85,7 @@ public class AuthenticationSuccessHandler implements org.springframework.securit
         params.add("type",loginToken.getType());
         UriBuilder uriBuilder = uriBuilderFactory.builder()
                 .scheme("https")
-                .host(env.getProperty("redirect-host"))
+                .host(env.getProperty("redirect-host")).path("google-oauth2").path("success")
                 .queryParams(params);
         response2.sendRedirect(uriBuilder.build().toString());
     }
