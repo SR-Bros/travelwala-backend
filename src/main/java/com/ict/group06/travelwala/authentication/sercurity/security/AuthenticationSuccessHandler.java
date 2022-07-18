@@ -59,7 +59,7 @@ public class AuthenticationSuccessHandler implements org.springframework.securit
             Map userAttributes = response.getBody();
             String email = (String) userAttributes.get("email");
             if (userService.existsByEmail(email)){
-                processRedirect(response2,email);
+                processRedirect(response2,email,userService.findByEmail(email).getFirstName());
             } else {
                 // create new user
                 try {
@@ -67,7 +67,7 @@ public class AuthenticationSuccessHandler implements org.springframework.securit
                 } catch (OAuth2AuthenticationProcessingException e) {
                     throw new RuntimeException(e);
                 }
-                processRedirect(response2,email);
+                processRedirect(response2,email, userService.findByEmail(email).getFirstName());
 
             }
         }
@@ -75,17 +75,19 @@ public class AuthenticationSuccessHandler implements org.springframework.securit
         response2.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 
-    private void processRedirect(HttpServletResponse response2, String email) throws IOException {
+    private void processRedirect(HttpServletResponse response2, String email, String username) throws IOException {
         response2.setStatus(HttpServletResponse.SC_FOUND);
         UriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
         LoginToken loginToken = loginTokenService.createToken(userService.findByEmail(email));
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("refreshToken",loginToken.getRefresh_token());
         params.add("accessToken",loginToken.getAccess_token());
+        params.add("username",username);
+
         params.add("type",loginToken.getType());
         UriBuilder uriBuilder = uriBuilderFactory.builder()
                 .scheme("https")
-                .host(env.getProperty("redirect-host")).path("google-oauth2").path("success")
+                .host(env.getProperty("redirect-host")).path("/google-oauth2").path("/success")
                 .queryParams(params);
         response2.sendRedirect(uriBuilder.build().toString());
     }
